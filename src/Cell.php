@@ -1,8 +1,7 @@
-<?php
+<?php namespace Datagrid;
 
 
-namespace Datagrid;
-
+use Nette\Utils\Html;
 
 class Cell
 {
@@ -45,5 +44,13 @@ class Cell
     public function setCellData($cellData)
     {
         $this->cellData = $cellData;
+    }
+
+    public function renderCell()
+    {
+        $td = Html::el('td');
+        $td->setText($this->getCellData());
+
+        return $td;
     }
 }

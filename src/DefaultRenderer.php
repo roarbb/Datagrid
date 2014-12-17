@@ -1,19 +1,18 @@
-<?php
+<?php namespace Datagrid;
 
 
-namespace Datagrid;
-
-
-use Tracy\Debugger;
+use Nette\Utils\Html;
 
 class DefaultRenderer
 {
     private $rows = array();
 
-    public function getHtmlTable($data)
+    public function getTable($data)
     {
         $this->parseData($data);
-        return "Datatable";
+        $table = $this->buildTable($this->rows);
+
+        return $table;
     }
 
     private function parseData($data)
@@ -21,7 +20,17 @@ class DefaultRenderer
         foreach ($data as $row) {
             $this->rows[] = new Row($row);
         }
+    }
 
-        Debugger::dump($this->rows);
+    private function buildTable(array $rows)
+    {
+        $table = Html::el('table');
+
+        foreach ($rows as $row) {
+            $tr = $row->renderRow();
+            $table->add($tr);
+        }
+
+        return $table;
     }
 }

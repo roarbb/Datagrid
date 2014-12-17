@@ -1,7 +1,4 @@
-<?php
-
-
-namespace Datagrid;
+<?php namespace Datagrid;
 
 
 class Datagrid
@@ -16,6 +13,7 @@ class Datagrid
     public function __toString()
     {
         $renderer = new DefaultRenderer;
-        return $renderer->getHtmlTable($this->rawData);
+        $tableObject = $renderer->getTable($this->rawData);
+        return strval($tableObject);
     }
 }

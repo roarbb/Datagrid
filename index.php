@@ -28,4 +28,6 @@ $data = array(
 $datagrid = new \Datagrid\Datagrid();
 $datagrid->setData($data);
 
-echo $datagrid;
+
+$latte = new Latte\Engine;
+$latte->render(__DIR__ . '/templates/template.latte', array('table' => $datagrid));
