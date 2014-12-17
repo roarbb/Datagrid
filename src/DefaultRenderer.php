@@ -5,21 +5,12 @@ use Nette\Utils\Html;
 
 class DefaultRenderer
 {
-    private $rows = array();
-
     public function getTable($data)
     {
-        $this->parseData($data);
-        $table = $this->buildTable($this->rows);
+        $rows = (new Parser)->parseData($data);
+        $table = $this->buildTable($rows);
 
         return $table;
-    }
-
-    private function parseData($data)
-    {
-        foreach ($data as $row) {
-            $this->rows[] = new Row($row);
-        }
     }
 
     private function buildTable(array $rows)

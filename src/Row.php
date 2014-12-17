@@ -14,11 +14,6 @@ class Row implements \Countable
         }
     }
 
-//    public function __call($method, $arguments)
-//    {
-//
-//    }
-
     public function count()
     {
         return count($this->columns);

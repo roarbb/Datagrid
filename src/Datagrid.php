@@ -3,17 +3,18 @@
 
 class Datagrid
 {
-    private $rawData = array();
+    private $data = array();
 
     public function setData($data)
     {
-        $this->rawData = $data;
+        $this->data = $data;
     }
 
     public function __toString()
     {
         $renderer = new DefaultRenderer;
-        $tableObject = $renderer->getTable($this->rawData);
+        $tableObject = $renderer->getTable($this->data);
+
         return strval($tableObject);
     }
 }
