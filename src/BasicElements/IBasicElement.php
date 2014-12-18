@@ -1,7 +1,4 @@
-<?php
-
-
-namespace Datagrid\BasicElements;
+<?php namespace Datagrid\BasicElements;
 
 
 interface IBasicElement
