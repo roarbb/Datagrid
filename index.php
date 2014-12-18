@@ -29,6 +29,5 @@ $datagrid->setTableClass('table');
 $datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pass' => 'Password']);
 $datagrid->isSortable();
 
-
 $latte = new Latte\Engine;
 $latte->render(__DIR__ . '/templates/template.latte', array('table' => $datagrid));

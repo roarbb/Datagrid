@@ -15,22 +15,6 @@ class Cell
         $this->cellData = $cellData;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getColumnName()
-    {
-        return $this->columnName;
-    }
-
-    /**
-     * @param mixed $columnName
-     */
-    public function setColumnName($columnName)
-    {
-        $this->columnName = $columnName;
-    }
-
     public function renderCell()
     {
         $td = Html::el('td');
@@ -59,7 +43,7 @@ class Cell
     {
         $th = Html::el('th');
 
-        if($sortingEnabled) {
+        if ($sortingEnabled) {
             $cellContent = $this->getSortingAnchor();
         } else {
             $cellContent = $this->getCellData();
@@ -83,5 +67,21 @@ class Cell
         $a->setText($this->getCellData());
 
         return $a;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getColumnName()
+    {
+        return $this->columnName;
+    }
+
+    /**
+     * @param mixed $columnName
+     */
+    public function setColumnName($columnName)
+    {
+        $this->columnName = $columnName;
     }
 }

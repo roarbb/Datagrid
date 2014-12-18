@@ -15,7 +15,7 @@ class Datagrid
         $this->renderer = new DefaultRenderer();
     }
 
-    public function setData($data)
+    public function setData(array $data)
     {
         $this->data = $data;
     }
@@ -32,7 +32,7 @@ class Datagrid
         $this->renderer->setHtmlTableClass($htmlClass);
     }
 
-    public function addHeader($headerLabels)
+    public function addHeader(array $headerLabels)
     {
         $this->renderer->setHeader($headerLabels);
     }

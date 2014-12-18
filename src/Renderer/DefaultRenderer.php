@@ -2,6 +2,8 @@
 
 
 use Datagrid\BasicElements\Row;
+use Datagrid\Sorter\RowSorter;
+use Datagrid\Utils\HttpService;
 use Datagrid\Utils\Parser;
 use Nette\Utils\Html;
 
@@ -9,7 +11,7 @@ class DefaultRenderer
 {
     private $htmlTableClass = '';
     private $headerLabels = array();
-    private $sorting = false;
+    private $sortingEnabled = false;
 
     public function getTable($data)
     {
@@ -41,7 +43,7 @@ class DefaultRenderer
     {
         if (!empty($this->headerLabels)) {
             $headerRow = new Row($this->headerLabels);
-            $thead = $headerRow->renderHeaderRow($this->sorting);
+            $thead = $headerRow->renderHeaderRow($this->sortingEnabled);
 
             $table->add($thead);
         }
@@ -49,6 +51,12 @@ class DefaultRenderer
 
     private function buildTableRows($table, $rows)
     {
+        if ($this->sortingEnabled) {
+            $rowSorter = new RowSorter($rows);
+            $httpService = new HttpService();
+            $rows = $rowSorter->sortRowsByCell($httpService->getSortByValue(), $httpService->getSortDirection());
+        }
+
         foreach ($rows as $row) {
             $tr = $row->renderRow();
             $table->add($tr);
@@ -67,6 +75,6 @@ class DefaultRenderer
 
     public function enableSorting()
     {
-        $this->sorting = true;
+        $this->sortingEnabled = true;
     }
 }

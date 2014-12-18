@@ -5,18 +5,18 @@ use Nette\Utils\Html;
 
 class Row implements \Countable
 {
-    public $columns = array();
+    public $cells = array();
 
     public function __construct($rowFields)
     {
         foreach ($rowFields as $columnName => $cellData) {
-            $this->columns[] = new Cell($columnName, $cellData);
+            $this->cells[] = new Cell($columnName, $cellData);
         }
     }
 
     public function count()
     {
-        return count($this->columns);
+        return count($this->cells);
     }
 
     public function renderRow()
@@ -24,7 +24,7 @@ class Row implements \Countable
         $tr = Html::el('tr');
 
         /** @var Cell $cell */
-        foreach ($this->columns as $cell) {
+        foreach ($this->cells as $cell) {
             $td = $cell->renderCell();
             $tr->add($td);
         }
@@ -32,7 +32,7 @@ class Row implements \Countable
         return $tr;
     }
 
-    public function renderHeaderRow($enabledSorting)
+    public function renderHeaderRow($sortingEnabled)
     {
         $thead = Html::el('thead');
         $tr = Html::el('tr');
@@ -40,11 +40,20 @@ class Row implements \Countable
         $thead->add($tr);
 
         /** @var Cell $cell */
-        foreach ($this->columns as $cell) {
-            $td = $cell->renderHeaderCell($enabledSorting);
+        foreach ($this->cells as $cell) {
+            $td = $cell->renderHeaderCell($sortingEnabled);
             $tr->add($td);
         }
 
         return $thead;
+    }
+
+    public function getCellByCellName($cellName)
+    {
+        $cell = array_filter($this->cells, function (Cell $cell) use ($cellName) {
+            return $cell->getColumnName() == $cellName;
+        });
+
+        return reset($cell);
     }
 }
