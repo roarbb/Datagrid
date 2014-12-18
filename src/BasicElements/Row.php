@@ -3,9 +3,10 @@
 
 use Nette\Utils\Html;
 
-class Row implements \Countable
+class Row implements \Countable, IBasicElement
 {
     public $cells = array();
+    public $rowActions = array();
 
     public function __construct($rowFields)
     {
@@ -19,14 +20,21 @@ class Row implements \Countable
         return count($this->cells);
     }
 
-    public function renderRow()
+    public function render()
     {
         $tr = Html::el('tr');
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
-            $td = $cell->renderCell();
+            $td = $cell->render();
             $tr->add($td);
+        }
+
+        if(!empty($this->rowActions)) {
+            $actions = new ActionCell($this->rowActions);
+            $actionTd = $actions->render();
+
+            $tr->add($actionTd);
         }
 
         return $tr;
@@ -55,5 +63,10 @@ class Row implements \Countable
         });
 
         return reset($cell);
+    }
+
+    public function addActions(array $rowActions)
+    {
+        $this->rowActions = $rowActions;
     }
 }

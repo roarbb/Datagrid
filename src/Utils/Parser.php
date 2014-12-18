@@ -1,18 +1,30 @@
 <?php namespace Datagrid\Utils;
 
 
+use Datagrid\BasicElements\ActionButton;
 use Datagrid\BasicElements\Row;
 
 class Parser
 {
-    private $rows;
-
-    public function parseData($data)
+    public function dataToRows(array $data)
     {
+        $rows = array();
+
         foreach ($data as $row) {
-            $this->rows[] = new Row($row);
+            $rows[] = new Row($row);
         }
 
-        return $this->rows;
+        return $rows;
+    }
+
+    public function actionsToActionButtons(array $data)
+    {
+        $actions = array();
+
+        foreach ($data as $action) {
+            $actions[] = new ActionButton($action[0], $action[1]);
+        }
+
+        return $actions;
     }
 }

@@ -1,10 +1,10 @@
 <?php namespace Datagrid\BasicElements;
 
 
-use Datagrid\Utils\HttpService;
+use Datagrid\Service\HttpService;
 use Nette\Utils\Html;
 
-class Cell
+class Cell implements IBasicElement
 {
     private $columnName;
     private $cellData;
@@ -15,7 +15,7 @@ class Cell
         $this->cellData = $cellData;
     }
 
-    public function renderCell()
+    public function render()
     {
         $td = Html::el('td');
         $td->setText($this->getCellData());

@@ -1,5 +1,7 @@
-<?php namespace Datagrid\Utils;
+<?php namespace Datagrid\Service;
 
+
+use Datagrid\Utils\Url;
 
 class HttpService
 {

@@ -41,4 +41,9 @@ class Datagrid
     {
         $this->renderer->enableSorting();
     }
+
+    public function addAction($label, $actionUrl)
+    {
+        $this->renderer->addtAction($label, $actionUrl);
+    }
 }
