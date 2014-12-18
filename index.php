@@ -12,19 +12,22 @@ $data = array(
         'surname' => 'Sajgal',
         'age' => 28,
         'position' => 'Developer',
-        'password' => 'pass',
+        'pass' => 'pass',
     ),
     'row2' => array(
         'name' => 'Max',
         'surname' => 'Pak',
         'age' => 32,
         'position' => 'Team Leader',
-        'password' => 'pass2',
+        'pass' => 'pass2',
     ),
 );
 
 $datagrid = new \Datagrid\Datagrid();
 $datagrid->setData($data);
+$datagrid->setTableClass('table');
+$datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pass' => 'Password']);
+$datagrid->isSortable();
 
 
 $latte = new Latte\Engine;

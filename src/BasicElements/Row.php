@@ -1,4 +1,4 @@
-<?php namespace Datagrid;
+<?php namespace Datagrid\BasicElements;
 
 
 use Nette\Utils\Html;
@@ -23,11 +23,28 @@ class Row implements \Countable
     {
         $tr = Html::el('tr');
 
+        /** @var Cell $cell */
         foreach ($this->columns as $cell) {
             $td = $cell->renderCell();
             $tr->add($td);
         }
 
         return $tr;
+    }
+
+    public function renderHeaderRow($enabledSorting)
+    {
+        $thead = Html::el('thead');
+        $tr = Html::el('tr');
+
+        $thead->add($tr);
+
+        /** @var Cell $cell */
+        foreach ($this->columns as $cell) {
+            $td = $cell->renderHeaderCell($enabledSorting);
+            $tr->add($td);
+        }
+
+        return $thead;
     }
 }

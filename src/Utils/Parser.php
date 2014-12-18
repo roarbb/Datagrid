@@ -1,5 +1,7 @@
-<?php namespace Datagrid;
+<?php namespace Datagrid\Utils;
 
+
+use Datagrid\BasicElements\Row;
 
 class Parser
 {
