@@ -54,9 +54,10 @@ class DefaultRenderer
 
     private function buildTableRows($table, $rows)
     {
-        if ($this->sortingEnabled) {
+        $httpService = new HttpService();
+
+        if ($this->sortingEnabled && $httpService->sortingGetParamsAreSet()) {
             $rowSorter = new RowSorter($rows);
-            $httpService = new HttpService();
             $rows = $rowSorter->sortRowsByCell($httpService->getSortByValue(), $httpService->getSortDirection());
         }
 

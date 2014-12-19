@@ -1,6 +1,7 @@
 <?php namespace Datagrid\BasicElements;
 
 
+use Datagrid\Utils\Parser;
 use Nette\Utils\Html;
 
 class Row implements \Countable, IBasicElement
@@ -8,11 +9,10 @@ class Row implements \Countable, IBasicElement
     public $cells = array();
     public $rowActions = array();
 
-    public function __construct($rowFields)
+    public function __construct(array $rowData)
     {
-        foreach ($rowFields as $columnName => $cellData) {
-            $this->cells[] = new Cell($columnName, $cellData);
-        }
+        $parser = new Parser();
+        $this->cells = $parser->rowDataToCells($rowData);
     }
 
     public function count()
@@ -31,7 +31,7 @@ class Row implements \Countable, IBasicElement
         }
 
         if(!empty($this->rowActions)) {
-            $actions = new ActionCell($this->rowActions);
+            $actions = new ActionCell($this->rowActions, $this);
             $actionTd = $actions->render();
 
             $tr->add($actionTd);

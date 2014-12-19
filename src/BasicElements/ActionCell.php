@@ -8,10 +8,10 @@ class ActionCell implements IBasicElement
 {
     private $actionButtons;
 
-    public function __construct($actions)
+    public function __construct(array $actions, Row $row)
     {
         $parser = new Parser();
-        $this->actionButtons = $parser->actionsToActionButtons($actions);
+        $this->actionButtons = $parser->actionsToActionButtons($actions, $row);
     }
 
     public function render()

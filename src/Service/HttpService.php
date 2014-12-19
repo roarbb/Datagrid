@@ -102,4 +102,16 @@ class HttpService
 
         return false;
     }
+
+    public function sortingGetParamsAreSet()
+    {
+        $url = new Url();
+        $query = $url->getQuery();
+
+        if(isset($query[$this->sortByKey]) && isset($query[$this->sortDirectionKey])) {
+            return true;
+        }
+
+        return false;
+    }
 }
