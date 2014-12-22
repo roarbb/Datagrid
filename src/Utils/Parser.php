@@ -7,12 +7,12 @@ use Datagrid\BasicElements\Row;
 
 class Parser
 {
-    public function dataToRows(array $data)
+    public function dataToRows(array $data, array $hidedColumns)
     {
         $rows = array();
 
         foreach ($data as $row) {
-            $rows[] = new Row($row);
+            $rows[] = new Row($row, $hidedColumns);
         }
 
         return $rows;

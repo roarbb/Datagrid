@@ -35,6 +35,7 @@ $datagrid->setData($data);
 $datagrid->setTableClass('table');
 $datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pass' => 'Password']);
 $datagrid->isSortable();
+$datagrid->hideColumns(['pass']);
 
 $datagrid->addAction('Edit Row', 'http://localhost/datagrid/editRow/{name}/{surname}/{age}');
 $datagrid->addAction('Delete Row', 'http://localhost/datagrid/delete/{name}');

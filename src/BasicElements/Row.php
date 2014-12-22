@@ -8,11 +8,16 @@ class Row implements \Countable, IBasicElement
 {
     public $cells = array();
     public $rowActions = array();
+    /**
+     * @var array
+     */
+    private $hidedColumns;
 
-    public function __construct(array $rowData)
+    public function __construct(array $rowData, array $hidedColumns)
     {
         $parser = new Parser();
         $this->cells = $parser->rowDataToCells($rowData);
+        $this->hidedColumns = $hidedColumns;
     }
 
     public function count()
@@ -26,6 +31,10 @@ class Row implements \Countable, IBasicElement
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
+            if($this->cellShouldBeHided($cell)) {
+                continue;
+            };
+
             $td = $cell->render();
             $tr->add($td);
         }
@@ -49,6 +58,10 @@ class Row implements \Countable, IBasicElement
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
+            if($this->cellShouldBeHided($cell)) {
+                continue;
+            };
+
             $td = $cell->renderHeaderCell($sortingEnabled);
             $tr->add($td);
         }
@@ -68,5 +81,14 @@ class Row implements \Countable, IBasicElement
     public function addActions(array $rowActions)
     {
         $this->rowActions = $rowActions;
+    }
+
+    private function cellShouldBeHided(Cell $cell)
+    {
+        if (in_array($cell->getColumnName(), $this->hidedColumns)) {
+            return true;
+        }
+
+        return false;
     }
 }

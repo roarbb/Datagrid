@@ -46,4 +46,9 @@ class Datagrid
     {
         $this->renderer->addtAction($label, $actionUrl);
     }
+
+    public function hideColumns($columns)
+    {
+        $this->renderer->hideColumns($columns);
+    }
 }

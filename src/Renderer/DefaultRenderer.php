@@ -14,11 +14,12 @@ class DefaultRenderer
     private $headerLabels = array();
     private $sortingEnabled = false;
     private $rowActions = array();
+    private $hidedColumns = array();
 
     public function getTable($data)
     {
         $parser = new Parser();
-        $rows = $parser->dataToRows($data);
+        $rows = $parser->dataToRows($data, $this->hidedColumns);
         $table = $this->buildTable($rows);
 
         return $table;
@@ -45,7 +46,7 @@ class DefaultRenderer
     private function buildHeaderRow($table)
     {
         if (!empty($this->headerLabels)) {
-            $headerRow = new Row($this->headerLabels);
+            $headerRow = new Row($this->headerLabels, $this->hidedColumns);
             $thead = $headerRow->renderHeaderRow($this->sortingEnabled);
 
             $table->add($thead);
@@ -87,5 +88,10 @@ class DefaultRenderer
     public function addtAction($label, $actionUrl)
     {
         $this->rowActions[] = array($label, $actionUrl);
+    }
+
+    public function hideColumns($columns)
+    {
+        $this->hidedColumns = $columns;
     }
 }

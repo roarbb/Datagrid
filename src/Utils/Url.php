@@ -26,7 +26,7 @@ class Url
         $host = ($use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
         $host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
 
-        $parsedUri = parse_url($s['REQUEST_URI']);
+        $parsedUri = $this->parseUrl($s);
 
         return array(
             'protocol' => $protocol,
@@ -51,5 +51,16 @@ class Url
     {
         $this->url['query'] = http_build_query($query);
         return $this;
+    }
+
+    private function parseUrl($s)
+    {
+        $parsedUrl = parse_url($s['REQUEST_URI']);
+
+        if(!isset($parsedUrl['query'])) {
+            $parsedUrl['query'] = "";
+        }
+
+        return $parsedUrl;
     }
 }
