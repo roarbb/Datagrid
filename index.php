@@ -6,29 +6,24 @@ require_once('vendor/autoload.php');
 Debugger::enable();
 Debugger::$maxDepth = 10;
 
-$data = array(
-    'row1' => array(
-        'name' => 'Matej',
-        'surname' => 'Sajgal',
-        'age' => 28,
-        'position' => 'Developer',
-        'pass' => 'pass',
-    ),
-    'row2' => array(
-        'name' => 'Max',
-        'surname' => 'Pak',
-        'age' => 32,
-        'position' => 'Team Leader',
-        'pass' => 'pass2',
-    ),
-    array(
-        'name' => 'John',
-        'surname' => 'Doe',
-        'age' => 30,
-        'position' => 'Developer',
-        'pass' => '',
-    ),
-);
+function getData($rowsCount) {
+    $faker = \Faker\Factory::create();
+    $rows = array();
+
+    for ($i = 0; $i < $rowsCount; $i++) {
+        $rows[] = array(
+            'name' => $faker->firstName,
+            'surname' => $faker->lastName,
+            'age' => $faker->numberBetween(20, 45),
+            'position' => $faker->randomElement(array('developer', 'sales', 'management')),
+            'pass' => 'pass',
+        );
+    }
+
+    return $rows;
+}
+
+$data = getData(20);
 
 $datagrid = new \Datagrid\Datagrid();
 $datagrid->setData($data);
