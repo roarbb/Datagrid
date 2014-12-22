@@ -2,6 +2,7 @@
 
 
 use Datagrid\Renderer\DefaultRenderer;
+use Nette\Utils\Paginator;
 
 class Datagrid
 {
@@ -50,5 +51,12 @@ class Datagrid
     public function hideColumns($columns)
     {
         $this->renderer->hideColumns($columns);
+    }
+
+    public function setPagination($rowsPerPage = 20)
+    {
+        $paginator = new Paginator();
+        $paginator->setItemsPerPage($rowsPerPage);
+        $this->renderer->setPaginator($paginator);
     }
 }

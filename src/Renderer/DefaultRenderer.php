@@ -2,11 +2,12 @@
 
 
 use Datagrid\BasicElements\Row;
-use Datagrid\BasicElements\ActionCell;
 use Datagrid\Service\HttpService;
 use Datagrid\Sorter\RowSorter;
+use Datagrid\Utils\ArrayHandler;
 use Datagrid\Utils\Parser;
 use Nette\Utils\Html;
+use Nette\Utils\Paginator;
 
 class DefaultRenderer
 {
@@ -15,6 +16,8 @@ class DefaultRenderer
     private $sortingEnabled = false;
     private $rowActions = array();
     private $hidedColumns = array();
+    /** @var Paginator */
+    private $paginator;
 
     public function getTable($data)
     {
@@ -57,6 +60,13 @@ class DefaultRenderer
     {
         $httpService = new HttpService();
 
+        if ($this->paginator) {
+            $this->paginator->setPage($httpService->getPaginatorPage());
+            $this->paginator->setItemCount(count($rows));
+
+            $rows = array_slice($rows, $this->paginator->offset, $this->paginator->itemsPerPage);
+        }
+
         if ($this->sortingEnabled && $httpService->sortingGetParamsAreSet()) {
             $rowSorter = new RowSorter($rows);
             $rows = $rowSorter->sortRowsByCell($httpService->getSortByValue(), $httpService->getSortDirection());
@@ -93,5 +103,10 @@ class DefaultRenderer
     public function hideColumns($columns)
     {
         $this->hidedColumns = $columns;
+    }
+
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
     }
 }

@@ -7,6 +7,7 @@ class HttpService
 {
     private $sortByKey = 'sort-by';
     private $sortDirectionKey = 'sort-direction';
+    private $paginatorKey = 'paginator-page';
 
     public function getSortUrl($sortByValue)
     {
@@ -113,5 +114,33 @@ class HttpService
         }
 
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaginatorKey()
+    {
+        return $this->paginatorKey;
+    }
+
+    /**
+     * @param string $paginatorKey
+     */
+    public function setPaginatorKey($paginatorKey)
+    {
+        $this->paginatorKey = $paginatorKey;
+    }
+
+    public function getPaginatorPage()
+    {
+        $url = new Url();
+        $query = $url->getQuery();
+
+        if(!isset($query[$this->getPaginatorKey()]) || $query[$this->getPaginatorKey()] < 1) {
+            return 1;
+        }
+
+        return intval($query[$this->getPaginatorKey()]);
     }
 }
