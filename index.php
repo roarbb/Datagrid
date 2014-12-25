@@ -6,8 +6,8 @@ require_once('vendor/autoload.php');
 Debugger::enable();
 Debugger::$maxDepth = 10;
 
-//$data = getData(20);
-$data = getStaticData();
+$data = getData(120);
+//$data = getStaticData();
 
 $datagrid = new \Datagrid\Datagrid();
 $datagrid->setData($data);
@@ -15,7 +15,7 @@ $datagrid->setTableClass('table');
 $datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pin' => 'PIN Code']);
 $datagrid->isSortable();
 $datagrid->hideColumns(['pin']);
-$datagrid->setPagination(2);
+$datagrid->setPagination(10);
 
 $datagrid->addAction('Edit Row', 'http://localhost/datagrid/editRow/{name}/{surname}/{age}');
 $datagrid->addAction('Delete Row', 'http://localhost/datagrid/delete/{name}');
@@ -54,28 +54,28 @@ function getStaticData()
     $rows[] = array(
         'name' => 'Veronika',
         'surname' => 'Poduskova',
-        'age' => '28',
+        'age' => '22',
         'position' => 'Software Developer',
         'pin' => '1234',
     );
     $rows[] = array(
         'name' => 'Tomas',
         'surname' => 'Sajgal',
-        'age' => '28',
+        'age' => '27',
         'position' => 'Software Developer',
         'pin' => '1234',
     );
     $rows[] = array(
         'name' => 'Helena',
         'surname' => 'Oravcova',
-        'age' => '28',
+        'age' => '43',
         'position' => 'Software Developer',
         'pin' => '1234',
     );
     $rows[] = array(
         'name' => 'Pavel',
         'surname' => 'Oravec',
-        'age' => '28',
+        'age' => '17',
         'position' => 'Software Developer',
         'pin' => '1234',
     );

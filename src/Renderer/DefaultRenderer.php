@@ -1,6 +1,7 @@
 <?php namespace Datagrid\Renderer;
 
 
+use Datagrid\BasicElements\Footer;
 use Datagrid\BasicElements\Row;
 use Datagrid\Service\HttpService;
 use Datagrid\Sorter\RowSorter;
@@ -19,16 +20,19 @@ class DefaultRenderer
     /** @var Paginator */
     private $paginator;
 
-    public function getTable($data)
+    public function getDatagrid($data)
     {
         $parser = new Parser();
-        $rows = $parser->dataToRows($data, $this->hidedColumns);
-        $table = $this->buildTable($rows);
 
-        return $table;
+        $output = Html::el('div')->addAttributes(array('class' => 'datagride'));
+        $rows = $parser->dataToRows($data, $this->hidedColumns);
+        $this->buildTable($rows, $output);
+        $this->buildFooter($output);
+
+        return $output;
     }
 
-    private function buildTable(array $rows)
+    private function buildTable(array $rows, Html $output)
     {
         $table = Html::el('table');
 
@@ -36,7 +40,7 @@ class DefaultRenderer
         $this->buildHeaderRow($table);
         $this->buildTableRows($table, $rows);
 
-        return $table;
+        $output->add($table);
     }
 
     private function buildTableClass($table)
@@ -60,16 +64,16 @@ class DefaultRenderer
     {
         $httpService = new HttpService();
 
+        if ($this->sortingEnabled && $httpService->sortingGetParamsAreSet()) {
+            $rowSorter = new RowSorter($rows);
+            $rows = $rowSorter->sortRowsByCell($httpService->getSortByValue(), $httpService->getSortDirection());
+        }
+
         if ($this->paginator) {
             $this->paginator->setPage($httpService->getPaginatorPage());
             $this->paginator->setItemCount(count($rows));
 
             $rows = array_slice($rows, $this->paginator->offset, $this->paginator->itemsPerPage);
-        }
-
-        if ($this->sortingEnabled && $httpService->sortingGetParamsAreSet()) {
-            $rowSorter = new RowSorter($rows);
-            $rows = $rowSorter->sortRowsByCell($httpService->getSortByValue(), $httpService->getSortDirection());
         }
 
         /** @var Row $row */
@@ -108,5 +112,13 @@ class DefaultRenderer
     public function setPaginator($paginator)
     {
         $this->paginator = $paginator;
+    }
+
+    private function buildFooter(Html $output)
+    {
+        $footer = new Footer($this->paginator);
+        $footerObject = $footer->render();
+
+        $output->add($footerObject);
     }
 }

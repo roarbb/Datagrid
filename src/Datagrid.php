@@ -23,9 +23,9 @@ class Datagrid
 
     public function __toString()
     {
-        $tableObject = $this->renderer->getTable($this->data);
+        $datagridHtmlObject = $this->renderer->getDatagrid($this->data);
 
-        return strval($tableObject);
+        return strval($datagridHtmlObject);
     }
 
     public function setTableClass($htmlClass)

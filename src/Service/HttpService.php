@@ -143,4 +143,16 @@ class HttpService
 
         return intval($query[$this->getPaginatorKey()]);
     }
+
+    public function getUrlWithPaginator($page)
+    {
+        $url = new Url();
+        $query = $url->getQuery();
+
+        $query[$this->paginatorKey] = $page;
+
+        $url->setNewQuery($query);
+
+        return $url;
+    }
 }
