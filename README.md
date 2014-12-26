@@ -15,7 +15,7 @@ curl -sS https://getcomposer.org/installer | php
 Next, run the Composer command to install the latest stable version of Datagrid:
 
 ```bash
-composer require guzzlehttp/guzzle
+composer require roarbb/datagrid
 ```
 
 After installing, you need to require Composer's autoloader:
