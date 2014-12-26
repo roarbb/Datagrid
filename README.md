@@ -120,5 +120,5 @@ $datagrid->setPagination(10);
 ### Action Buttons
 If you want to add some buttons at the end of each row. You can use placeholders: `{name}` will be translated to `Tyree` etc.
 ```php
-$datagrid->addAction('Delete Row', 'http://localhost/datagrid/delete/{name}');
+$datagrid->addAction('Delete Row', 'http://datagrid.sajgal.com/delete/{name}');
 ```
