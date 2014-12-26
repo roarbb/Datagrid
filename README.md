@@ -2,6 +2,9 @@
 
 Datagrid is PHP component to creating tables from a set of data.
 
+## Live Example
+Here: [http://datagrid.sajgal.com](http://datagrid.sajgal.com/).
+
 ## Installation
 
 The recommended way to install Datagrid is through
