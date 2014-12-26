@@ -78,3 +78,47 @@ Then in template file:
 <h1>Datagrid</h1>
 <?php echo $datagrid ?>
 ```
+
+## More Options
+
+### Json source
+If you want to build table from valid JSON REST API response:
+```php
+$datagrid->setData('http://datagrid.sajgal.com/?getJson');
+```
+
+### Table html class attribute
+If you are using [Bootstrap](http://getbootstrap.com/css/#tables) you may need to set css class to Datagrid.
+```php
+$datagrid->setTableClass('table');
+```
+
+### Header Row
+You can set header row of Datagrid
+```php
+$datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pin' => 'PIN Code']);
+```
+
+### Sorting
+If you want to enable sorting of Datagrid rows
+```php
+$datagrid->isSortable();
+```
+
+### Hiding Columns
+If you want to hide some of columns with sensitive content
+```php
+$datagrid->hideColumns(['pin']);
+```
+
+### Pagination
+You can also enable pagination. You should pass **rows per page** integer as first argument. 
+```php
+$datagrid->setPagination(10);
+```
+
+### Action Buttons
+If you want to add some buttons at the end of each row. You can use placeholders: `{name}` will be translated to `Tyree` etc.
+```php
+$datagrid->addAction('Delete Row', 'http://localhost/datagrid/delete/{name}');
+```
