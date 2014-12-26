@@ -1,7 +1,4 @@
-<?php
-
-
-namespace Datagrid\Sorter;
+<?php namespace Datagrid\Sorter;
 
 
 class RowSorter
@@ -9,11 +6,19 @@ class RowSorter
 
     private $rows = array();
 
+    /**
+     * @param array $rows
+     */
     public function __construct(array $rows)
     {
         $this->rows = $rows;
     }
 
+    /**
+     * @param $cellName
+     * @param $direction
+     * @return array
+     */
     public function sortRowsByCell($cellName, $direction)
     {
         usort($this->rows, function ($a, $b) use ($cellName, $direction) {

@@ -7,6 +7,13 @@ use Datagrid\BasicElements\Row;
 
 class Parser
 {
+    /**
+     * Transforms array to array of Rows
+     *
+     * @param array $data
+     * @param array $hidedColumns
+     * @return array
+     */
     public function dataToRows(array $data, array $hidedColumns)
     {
         $rows = array();
@@ -18,6 +25,13 @@ class Parser
         return $rows;
     }
 
+    /**
+     * Transforms array to array of ActionButtons
+     *
+     * @param array $data
+     * @param Row $row
+     * @return array
+     */
     public function actionsToActionButtons(array $data, Row $row)
     {
         $actions = array();
@@ -29,6 +43,12 @@ class Parser
         return $actions;
     }
 
+    /**
+     * Transforms array to array of Cells
+     *
+     * @param $rowData
+     * @return array
+     */
     public function rowDataToCells($rowData)
     {
         $cells = array();

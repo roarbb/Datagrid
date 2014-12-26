@@ -2,6 +2,8 @@
 
 
 use Datagrid\Renderer\DefaultRenderer;
+use Datagrid\Service\DownloadService;
+use Datagrid\Service\MessageService;
 use Nette\Utils\Paginator;
 
 class Datagrid
@@ -11,18 +13,35 @@ class Datagrid
     /** @var DefaultRenderer */
     private $renderer;
 
+    /** @var MessageService */
+    private $message;
+
     public function __construct()
     {
         $this->renderer = new DefaultRenderer();
     }
 
-    public function setData(array $data)
+    public function setData($data, $format = "json")
     {
+        if(!is_array($data)) {
+            $downloader = new DownloadService($data, $format);
+            $data = $downloader->getData();
+        }
+
+        if($data instanceof MessageService) {
+            $this->message = $data;
+            $data = array();
+        }
+
         $this->data = $data;
     }
 
     public function __toString()
     {
+        if($this->message) {
+            return strval($this->message);
+        }
+
         $datagridHtmlObject = $this->renderer->getDatagrid($this->data);
 
         return strval($datagridHtmlObject);

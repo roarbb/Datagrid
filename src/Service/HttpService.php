@@ -9,6 +9,12 @@ class HttpService
     private $sortDirectionKey = 'sort-direction';
     private $paginatorKey = 'paginator-page';
 
+    /**
+     * Returns sorting Url object for specific column
+     *
+     * @param $sortByValue
+     * @return Url
+     */
     public function getSortUrl($sortByValue)
     {
         $url = new Url();
@@ -57,6 +63,13 @@ class HttpService
         $this->sortDirectionKey = $sortDirectionKey;
     }
 
+    /**
+     * @param $sortByKey
+     * @param $sortByValue
+     * @param $sortDirectionKey
+     * @param $query
+     * @return string
+     */
     private function getSortDirectionValue($sortByKey, $sortByValue, $sortDirectionKey, $query)
     {
         if ($this->defaultState($query, $sortByKey, $sortByValue, $sortDirectionKey)) {
@@ -70,16 +83,33 @@ class HttpService
         return 'DESC';
     }
 
+    /**
+     * @param $query
+     * @param $sortByKey
+     * @param $sortByValue
+     * @param $sortDirectionKey
+     * @return bool
+     */
     private function defaultState($query, $sortByKey, $sortByValue, $sortDirectionKey)
     {
         return (isset($query[$sortByKey]) && $query[$sortByKey] != $sortByValue) || !isset($query[$sortDirectionKey]);
     }
 
+    /**
+     * @param $query
+     * @param $sortDirectionKey
+     * @return bool
+     */
     private function ifDirectionIsDESC($query, $sortDirectionKey)
     {
         return isset($query[$sortDirectionKey]) && $query[$sortDirectionKey] == 'DESC';
     }
 
+    /**
+     * Returns name of active sorting column
+     *
+     * @return bool
+     */
     public function getSortByValue()
     {
         $url = new Url();
@@ -92,6 +122,11 @@ class HttpService
         return false;
     }
 
+    /**
+     * Returns sorting direction (ASC / DESC / false)
+     *
+     * @return bool
+     */
     public function getSortDirection()
     {
         $url = new Url();
@@ -104,12 +139,17 @@ class HttpService
         return false;
     }
 
+    /**
+     * Tells if sorting is active
+     *
+     * @return bool
+     */
     public function sortingGetParamsAreSet()
     {
         $url = new Url();
         $query = $url->getQuery();
 
-        if(isset($query[$this->sortByKey]) && isset($query[$this->sortDirectionKey])) {
+        if (isset($query[$this->sortByKey]) && isset($query[$this->sortDirectionKey])) {
             return true;
         }
 
@@ -132,18 +172,29 @@ class HttpService
         $this->paginatorKey = $paginatorKey;
     }
 
+    /**
+     * Returns Paginator Page from $_GET
+     *
+     * @return int
+     */
     public function getPaginatorPage()
     {
         $url = new Url();
         $query = $url->getQuery();
 
-        if(!isset($query[$this->getPaginatorKey()]) || $query[$this->getPaginatorKey()] < 1) {
+        if (!isset($query[$this->getPaginatorKey()]) || $query[$this->getPaginatorKey()] < 1) {
             return 1;
         }
 
         return intval($query[$this->getPaginatorKey()]);
     }
 
+    /**
+     * Returns Url with paginator set to specific page
+     *
+     * @param $page
+     * @return Url
+     */
     public function getUrlWithPaginator($page)
     {
         $url = new Url();

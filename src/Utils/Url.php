@@ -5,11 +5,18 @@ class Url
 {
     private $url;
 
+    /**
+     * @param bool $use_forwarded_host
+     */
     public function __construct($use_forwarded_host = false)
     {
         $this->url = $this->getActualUrl($use_forwarded_host);
     }
 
+    /**
+     * @param $use_forwarded_host
+     * @return array
+     */
     private function getActualUrl($use_forwarded_host)
     {
         $s = $_SERVER;
@@ -36,28 +43,42 @@ class Url
         );
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->url['protocol'] . '://' . $this->url['host'] . $this->url['path'] . ($this->url['query'] ? '?' . $this->url['query'] : '');
     }
 
+    /**
+     * @return mixed
+     */
     public function getQuery()
     {
         parse_str($this->url['query'], $query);
         return $query;
     }
 
+    /**
+     * @param array $query
+     * @return $this
+     */
     public function setNewQuery(array $query)
     {
         $this->url['query'] = http_build_query($query);
         return $this;
     }
 
+    /**
+     * @param $s
+     * @return mixed
+     */
     private function parseUrl($s)
     {
         $parsedUrl = parse_url($s['REQUEST_URI']);
 
-        if(!isset($parsedUrl['query'])) {
+        if (!isset($parsedUrl['query'])) {
             $parsedUrl['query'] = "";
         }
 

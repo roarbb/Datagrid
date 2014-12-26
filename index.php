@@ -6,11 +6,14 @@ require_once('vendor/autoload.php');
 Debugger::enable();
 Debugger::$maxDepth = 10;
 
+tryToOutputJson();
+
 $data = getData(120);
 //$data = getStaticData();
 
 $datagrid = new \Datagrid\Datagrid();
 $datagrid->setData($data);
+//$datagrid->setData('http://localhost/datagrid/?getJson');
 $datagrid->setTableClass('table');
 $datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pin' => 'PIN Code']);
 $datagrid->isSortable();
@@ -21,7 +24,7 @@ $datagrid->addAction('Edit Row', 'http://localhost/datagrid/editRow/{name}/{surn
 $datagrid->addAction('Delete Row', 'http://localhost/datagrid/delete/{name}');
 
 $latte = new Latte\Engine;
-$latte->render(__DIR__ . '/templates/template.latte', array('table' => $datagrid));
+$latte->render(__DIR__ . '/templates/template.latte', array('datagrid' => $datagrid));
 
 // ---------------------------------------------------------------------------------------
 
@@ -81,4 +84,16 @@ function getStaticData()
     );
 
     return $rows;
+}
+
+function tryToOutputJson()
+{
+    if(!isset($_GET['getJson'])) {
+        return false;
+    }
+
+    Debugger::enable(Debugger::PRODUCTION);
+    echo json_encode(getData(120));
+    Debugger::enable();
+    exit;
 }
