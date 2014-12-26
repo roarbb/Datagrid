@@ -1,4 +1,17 @@
 {
+    "name": "roarbb/datagrid",
+    "type": "library",
+    "description": "Datagrid is Data renderer with some configuration options",
+    "keywords": ["datagrid", "table"],
+    "homepage": "http://datagrid.sajgal.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matej Sajgal",
+            "email": "matej@sajgal.com",
+            "homepage": "http://www.sajgal.com"
+        }
+    ],
     "require": {
         "latte/latte": "~2.2",
         "tracy/tracy": "~2.2",
@@ -9,12 +22,6 @@
         "phpspec/phpspec": "~2.0",
         "fzaninotto/faker": "1.5.*@dev"
     },
-    "authors": [
-        {
-            "name": "Matej Sajgal",
-            "email": "matej@sajgal.com"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "Datagrid\\": "src"

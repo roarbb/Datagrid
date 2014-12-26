@@ -1,5 +1,6 @@
 <?php
 
+use Datagrid\Datagrid;
 use Tracy\Debugger;
 
 require_once('vendor/autoload.php');
@@ -11,7 +12,7 @@ tryToOutputJson();
 $data = getData(120);
 //$data = getStaticData();
 
-$datagrid = new \Datagrid\Datagrid();
+$datagrid = new Datagrid();
 $datagrid->setData($data);
 //$datagrid->setData('http://localhost/datagrid/?getJson');
 $datagrid->setTableClass('table');
