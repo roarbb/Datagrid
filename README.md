@@ -97,9 +97,10 @@ $datagrid->setTableClass('table');
 ```
 
 ### Header Row
-You can set header row of Datagrid
+You can set header row of Datagrid. 
+Count of array elements passed as argument should match count of items in each row element of `$data` variable.
 ```php
-$datagrid->addHeader(['name' => 'First name', 'surname' => 'Surname', 'age' => 'Age', 'position' => 'Position', 'pin' => 'PIN Code']);
+$datagrid->addHeader(['First name', 'Surname', 'Age', 'Position', 'PIN Code']);
 ```
 
 ### Sorting

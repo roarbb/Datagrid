@@ -6,6 +6,7 @@ use Datagrid\Service\DownloadService;
 use Datagrid\Service\MessageService;
 use GuzzleHttp\Exception\ParseException;
 use Nette\Utils\Paginator;
+use Datagrid\Exception\SetDataException;
 
 class Datagrid
 {
@@ -59,7 +60,13 @@ class Datagrid
 
     public function addHeader(array $headerLabels)
     {
-        $this->renderer->setHeader($headerLabels);
+        if(empty($this->data)) {
+            throw new SetDataException("Please set data before adding header.");
+        }
+
+        $columnNames = array_keys(reset($this->data));
+
+        $this->renderer->setHeader($headerLabels, $columnNames);
     }
 
     public function isSortable()

@@ -89,9 +89,15 @@ class DefaultRenderer
         $this->htmlTableClass = $htmlTableClass;
     }
 
-    public function setHeader(array $headerLabels)
+    public function setHeader(array $headerLabels, array $columnNames)
     {
-        $this->headerLabels = $headerLabels;
+        $combined = array_combine($columnNames, $headerLabels);
+
+        if(!$combined) {
+            throw new \InvalidArgumentException('Header row names count does not match row cells count.');
+        }
+
+        $this->headerLabels = $combined;
     }
 
     public function enableSorting()
