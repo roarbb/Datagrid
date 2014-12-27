@@ -87,7 +87,7 @@ Then in template file:
 ### Json source
 If you want to build table from valid JSON REST API response:
 ```php
-$datagrid->setData('http://datagrid.sajgal.com/?getJson');
+$datagrid->setDataUrl('http://datagrid.sajgal.com/?getJson');
 ```
 
 ### Table html class attribute

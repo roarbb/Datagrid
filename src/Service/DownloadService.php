@@ -2,7 +2,6 @@
 
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ParseException;
 
 class DownloadService
 {
@@ -20,7 +19,7 @@ class DownloadService
     }
 
     /**
-     * @return array|MessageService|mixed
+     * @return array|mixed
      */
     public function getData()
     {
@@ -28,11 +27,7 @@ class DownloadService
         $response = $client->get($this->downloadUrl);
 
         if ($this->format == 'json') {
-            try {
-                return $response->json();
-            } catch (ParseException $e) {
-                return new MessageService($e->getMessage(), 'danger');
-            }
+            return $response->json();
         }
 
         return array();

@@ -4,6 +4,7 @@
 use Datagrid\Renderer\DefaultRenderer;
 use Datagrid\Service\DownloadService;
 use Datagrid\Service\MessageService;
+use GuzzleHttp\Exception\ParseException;
 use Nette\Utils\Paginator;
 
 class Datagrid
@@ -21,16 +22,20 @@ class Datagrid
         $this->renderer = new DefaultRenderer();
     }
 
-    public function setData($data, $format = "json")
+    public function setData(array $data)
     {
-        if(!is_array($data)) {
-            $downloader = new DownloadService($data, $format);
-            $data = $downloader->getData();
-        }
+        $this->data = $data;
+    }
 
-        if($data instanceof MessageService) {
-            $this->message = $data;
+    public function setDataUrl($url, $format = "json")
+    {
+        $downloader = new DownloadService($url, $format);
+
+        try {
+            $data = $downloader->getData();
+        } catch(ParseException $e) {
             $data = array();
+            $this->message = new MessageService($e->getMessage(), 'danger');
         }
 
         $this->data = $data;
