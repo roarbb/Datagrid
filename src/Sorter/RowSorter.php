@@ -21,10 +21,10 @@ class RowSorter
      */
     public function sortRowsByCell($cellName, $direction)
     {
-        usort($this->rows, function ($a, $b) use ($cellName, $direction) {
+        usort($this->rows, function ($firstRow, $secondRow) use ($cellName, $direction) {
 
-            $cellA = $a->getCellByCellName($cellName);
-            $cellB = $b->getCellByCellName($cellName);
+            $cellA = $firstRow->getCellByCellName($cellName);
+            $cellB = $secondRow->getCellByCellName($cellName);
 
             $comparison = strcmp($cellA->getCellData(), $cellB->getCellData());
 

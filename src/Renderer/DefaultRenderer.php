@@ -19,12 +19,18 @@ class DefaultRenderer
     private $hidedColumns = array();
     /** @var Paginator */
     private $paginator;
+    private $html;
+
+    public function __construct()
+    {
+        $this->html = new Html();
+    }
 
     public function getDatagrid($data)
     {
         $parser = new Parser();
 
-        $output = Html::el('div')->addAttributes(array('class' => 'datagride'));
+        $output = $this->html->el('div')->addAttributes(array('class' => 'datagride'));
         $rows = $parser->dataToRows($data, $this->hidedColumns);
         $this->buildTable($rows, $output);
         $this->buildFooter($output);
@@ -34,7 +40,7 @@ class DefaultRenderer
 
     private function buildTable(array $rows, Html $output)
     {
-        $table = Html::el('table');
+        $table = $this->html->el('table');
 
         $this->buildTableClass($table);
         $this->buildHeaderRow($table);

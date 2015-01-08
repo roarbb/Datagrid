@@ -16,7 +16,8 @@
         "latte/latte": "~2.2",
         "tracy/tracy": "~2.2",
         "nette/utils": "~2.2",
-        "guzzlehttp/guzzle": "5.0.*@dev"
+        "guzzlehttp/guzzle": "5.0.*@dev",
+        "phpmd/phpmd" : "@stable"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",

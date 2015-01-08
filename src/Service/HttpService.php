@@ -108,7 +108,7 @@ class HttpService
     /**
      * Returns name of active sorting column
      *
-     * @return bool
+     * @return bool|string
      */
     public function getSortByValue()
     {
@@ -125,7 +125,7 @@ class HttpService
     /**
      * Returns sorting direction (ASC / DESC / false)
      *
-     * @return bool
+     * @return bool|string
      */
     public function getSortDirection()
     {

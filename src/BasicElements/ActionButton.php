@@ -11,28 +11,30 @@ class ActionButton implements IBasicElement
     private $row;
     private $label;
     private $rawUrl;
+    private $html;
 
     public function __construct($label, $rawUrl, Row $row)
     {
         $this->label = $label;
         $this->rawUrl = $rawUrl;
         $this->row = $row;
+        $this->html = new Html();
     }
 
     public function render()
     {
-        $a = Html::el('a');
+        $anchor = $this->html->el('a');
 
         $attributes = array();
         $attributes['type'] = 'button';
         $attributes['class'] = 'btn btn-primary btn-xs';
         $attributes['href'] = $this->getTranslatedUrl($this->rawUrl);
 
-        $a->addAttributes($attributes);
+        $anchor->addAttributes($attributes);
 
-        $a->setText($this->label);
+        $anchor->setText($this->label);
 
-        return $a;
+        return $anchor;
     }
 
     private function getTranslatedUrl($rawUrl)
@@ -44,6 +46,12 @@ class ActionButton implements IBasicElement
         );
     }
 
+    /**
+     * @param $matches
+     * @return mixed
+     *
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
     private function translateMatch($matches)
     {
         $cellName = $matches[1];

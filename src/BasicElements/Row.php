@@ -18,6 +18,7 @@ class Row implements \Countable, IBasicElement
         $parser = new Parser();
         $this->cells = $parser->rowDataToCells($rowData);
         $this->hidedColumns = $hidedColumns;
+        $this->html = new Html();
     }
 
     public function count()
@@ -27,7 +28,7 @@ class Row implements \Countable, IBasicElement
 
     public function render()
     {
-        $tr = Html::el('tr');
+        $tableRow = $this->html->el('tr');
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
@@ -35,26 +36,26 @@ class Row implements \Countable, IBasicElement
                 continue;
             };
 
-            $td = $cell->render();
-            $tr->add($td);
+            $tableData = $cell->render();
+            $tableRow->add($tableData);
         }
 
         if(!empty($this->rowActions)) {
             $actions = new ActionCell($this->rowActions, $this);
             $actionTd = $actions->render();
 
-            $tr->add($actionTd);
+            $tableRow->add($actionTd);
         }
 
-        return $tr;
+        return $tableRow;
     }
 
     public function renderHeaderRow($sortingEnabled)
     {
-        $thead = Html::el('thead');
-        $tr = Html::el('tr');
+        $thead = $this->html->el('thead');
+        $tableRow = $this->html->el('tr');
 
-        $thead->add($tr);
+        $thead->add($tableRow);
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
@@ -62,8 +63,8 @@ class Row implements \Countable, IBasicElement
                 continue;
             };
 
-            $td = $cell->renderHeaderCell($sortingEnabled);
-            $tr->add($td);
+            $tableData = $cell->renderHeaderCell($sortingEnabled);
+            $tableRow->add($tableData);
         }
 
         return $thead;
