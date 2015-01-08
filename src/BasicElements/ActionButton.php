@@ -1,6 +1,5 @@
 <?php namespace Datagrid\BasicElements;
 
-
 use Nette\Utils\Html;
 
 class ActionButton implements IBasicElement
@@ -59,11 +58,10 @@ class ActionButton implements IBasicElement
         /** @var Cell $cell */
         $cell = $this->row->getCellByCellName($cellName);
 
-        if(!$cell) {
+        if (!$cell) {
             return $matches[0];
         }
 
         return $cell->getCellData();
     }
-
 }

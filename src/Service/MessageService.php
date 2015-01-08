@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Service;
 
-
 use Nette\Utils\Html;
 
 class MessageService

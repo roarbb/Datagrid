@@ -1,6 +1,5 @@
 <?php namespace Datagrid;
 
-
 use Datagrid\Renderer\DefaultRenderer;
 use Datagrid\Service\DownloadService;
 use Datagrid\Service\MessageService;
@@ -34,7 +33,7 @@ class Datagrid
 
         try {
             $data = $downloader->getData();
-        } catch(ParseException $e) {
+        } catch (ParseException $e) {
             $data = array();
             $this->message = new MessageService($e->getMessage(), 'danger');
         }
@@ -44,7 +43,7 @@ class Datagrid
 
     public function __toString()
     {
-        if($this->message) {
+        if ($this->message) {
             return strval($this->message);
         }
 
@@ -60,7 +59,7 @@ class Datagrid
 
     public function addHeader(array $headerLabels)
     {
-        if(empty($this->data)) {
+        if (empty($this->data)) {
             throw new SetDataException("Please set data before adding header.");
         }
 

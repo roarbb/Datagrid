@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Utils;
 
-
 use Datagrid\BasicElements\ActionButton;
 use Datagrid\BasicElements\Cell;
 use Datagrid\BasicElements\Row;

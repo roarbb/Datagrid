@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Service;
 
-
 use GuzzleHttp\Client;
 
 class DownloadService

@@ -1,6 +1,5 @@
 <?php namespace Datagrid\BasicElements;
 
-
 use Datagrid\Utils\Parser;
 use Nette\Utils\Html;
 
@@ -32,7 +31,7 @@ class Row implements \Countable, IBasicElement
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
-            if($this->cellShouldBeHided($cell)) {
+            if ($this->cellShouldBeHided($cell)) {
                 continue;
             };
 
@@ -40,7 +39,7 @@ class Row implements \Countable, IBasicElement
             $tableRow->add($tableData);
         }
 
-        if(!empty($this->rowActions)) {
+        if (!empty($this->rowActions)) {
             $actions = new ActionCell($this->rowActions, $this);
             $actionTd = $actions->render();
 
@@ -59,7 +58,7 @@ class Row implements \Countable, IBasicElement
 
         /** @var Cell $cell */
         foreach ($this->cells as $cell) {
-            if($this->cellShouldBeHided($cell)) {
+            if ($this->cellShouldBeHided($cell)) {
                 continue;
             };
 

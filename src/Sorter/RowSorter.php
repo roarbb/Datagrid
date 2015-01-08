@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Sorter;
 
-
 class RowSorter
 {
 

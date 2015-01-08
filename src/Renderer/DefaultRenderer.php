@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Renderer;
 
-
 use Datagrid\BasicElements\Footer;
 use Datagrid\BasicElements\Row;
 use Datagrid\Service\HttpService;
@@ -99,7 +98,7 @@ class DefaultRenderer
     {
         $combined = array_combine($columnNames, $headerLabels);
 
-        if(!$combined) {
+        if (!$combined) {
             throw new \InvalidArgumentException('Header row names count does not match row cells count.');
         }
 

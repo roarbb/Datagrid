@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Utils;
 
-
 class Url
 {
     private $url;
@@ -43,7 +42,8 @@ class Url
      */
     public function __toString()
     {
-        return $this->url['protocol'] . '://' . $this->url['host'] . $this->url['path'] . ($this->url['query'] ? '?' . $this->url['query'] : '');
+        return $this->url['protocol'] . '://' . $this->url['host'] . $this->url['path']
+            . ($this->url['query'] ? '?' . $this->url['query'] : '');
     }
 
     /**

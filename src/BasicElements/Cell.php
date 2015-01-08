@@ -1,6 +1,5 @@
 <?php namespace Datagrid\BasicElements;
 
-
 use Datagrid\Service\HttpService;
 use Nette\Utils\Html;
 

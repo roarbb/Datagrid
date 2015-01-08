@@ -1,6 +1,5 @@
 <?php namespace Datagrid\BasicElements;
 
-
 use Datagrid\Service\HttpService;
 use Nette\Utils\Html;
 use Nette\Utils\Paginator;
@@ -105,7 +104,7 @@ class Footer implements IBasicElement
             $listItem->addAttributes(array('class' => 'disabled'));
         }
 
-        if(!$shouldBeDisabled) {
+        if (!$shouldBeDisabled) {
             $httpService = new HttpService();
             $href = $httpService->getUrlWithPaginator($this->paginator->page + $pageNumber);
             $anchor->addAttributes(array('href' => $href));
@@ -122,8 +121,9 @@ class Footer implements IBasicElement
         $actualPage = $this->paginator->page;
 
         for ($i = 1; $i <= $this->paginator->pageCount; $i++) {
-
-            if ($this->shouldSkipThisPaginationPage($i)) continue;
+            if ($this->shouldSkipThisPaginationPage($i)) {
+                continue;
+            }
 
             $httpService = new HttpService();
             $paginationUrl = $httpService->getUrlWithPaginator($i);
@@ -159,7 +159,9 @@ class Footer implements IBasicElement
     private function pageIsNotInPaginationVisibleRange($pageIndex)
     {
         $actualPage = $this->paginator->page;
-        return $pageIndex < $actualPage - $this->visiblePaginationRange || $pageIndex > $actualPage + $this->visiblePaginationRange;
+
+        return $pageIndex < $actualPage - $this->visiblePaginationRange
+            || $pageIndex > $actualPage + $this->visiblePaginationRange;
     }
 
     private function isNotfirstOrLastPage($pageIndex)
