@@ -7,7 +7,7 @@ class MessageService
     private $message;
     private $type;
 
-    public function __construct($message, $type)
+    public function __construct($message, $type = 'success')
     {
         $this->message = $message;
         $this->type = $type;
