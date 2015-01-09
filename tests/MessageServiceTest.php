@@ -13,10 +13,11 @@ class MessageServiceTest extends \PHPUnit_Framework_TestCase
     public function testStringValShouldReturnDiv()
     {
         $msgType = 'type';
-        $message = new MessageService('Msg', $msgType);
+        $messageText = 'Msg';
+        $message = new MessageService($messageText, $msgType);
 
         $this->assertEquals(
-            '<div class="alert alert-' . $msgType . '" role="alert">Msg</div>',
+            sprintf('<div class="alert alert-%s" role="alert">%s</div>', $msgType, $messageText),
             strval($message)
         );
     }
