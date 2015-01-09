@@ -18,9 +18,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://www.google.com/?search=name&format=json', strval($url));
     }
 
-    public function testShouldReturnQuery()
+    public function testShouldReturnQueryAsArray()
     {
         $url = new Url();
+
         $expectedQuery = array(
             'search' => 'name',
             'format' => 'json',
@@ -31,13 +32,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testQueryCanBeReplaced()
     {
-        $url = new Url();
         $newQuery = array(
             'search' => 'age',
             'format' => 'json',
             'exclude' => 'nothing',
         );
 
+        $url = new Url();
         $url->setNewQuery($newQuery);
 
         $this->assertEquals('http://www.google.com/?search=age&format=json&exclude=nothing', strval($url));
