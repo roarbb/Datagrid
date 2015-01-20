@@ -2,6 +2,7 @@
 
 use Datagrid\Service\HttpService;
 use Nette\Utils\Html;
+use Nette\Utils\Strings;
 
 class Cell implements IBasicElement
 {
@@ -18,7 +19,7 @@ class Cell implements IBasicElement
 
     public function render()
     {
-        $tableData = $this->html->el('td');
+        $tableData = $this->html->el('td', array('class' => 'cell-' . Strings::webalize($this->columnName)));
         $tableData->setText($this->getCellData());
 
         return $tableData;
@@ -42,7 +43,7 @@ class Cell implements IBasicElement
 
     public function renderHeaderCell($sortingEnabled)
     {
-        $tableHeader = $this->html->el('th');
+        $tableHeader = $this->html->el('th', array('class' => 'cell-' . Strings::webalize($this->columnName)));
 
         $cellContent = $this->getCellData();
 
