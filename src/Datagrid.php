@@ -83,10 +83,15 @@ class Datagrid
         $this->renderer->hideColumns($columns);
     }
 
-    public function setPagination($rowsPerPage = 20)
+    public function setPagination($rowsPerPage = 20, $rowsCount = null)
     {
         $paginator = new Paginator();
         $paginator->setItemsPerPage($rowsPerPage);
+
+        if ($rowsCount) {
+            $paginator->setItemCount($rowsCount);
+        }
+
         $this->renderer->setPaginator($paginator);
     }
 }

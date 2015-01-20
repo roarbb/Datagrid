@@ -26,7 +26,7 @@ class ActionButton implements IBasicElement
 
         $attributes = array();
         $attributes['type'] = 'button';
-        $attributes['class'] = 'btn btn-primary btn-xs';
+        $attributes['class'] = 'btn btn-primary btn-xs ' . Strings::webalize($this->label);
         $attributes['href'] = $this->getTranslatedUrl($this->rawUrl);
 
         $anchor->addAttributes($attributes);

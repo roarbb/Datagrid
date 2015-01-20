@@ -75,10 +75,7 @@ class DefaultRenderer
         }
 
         if ($this->paginator) {
-            $this->paginator->setPage($httpService->getPaginatorPage());
-            $this->paginator->setItemCount(count($rows));
-
-            $rows = array_slice($rows, $this->paginator->offset, $this->paginator->itemsPerPage);
+            $this->startPaginator($httpService, $rows);
         }
 
         /** @var Row $row */
@@ -131,5 +128,16 @@ class DefaultRenderer
         $footerObject = $footer->render();
 
         $output->add($footerObject);
+    }
+
+    private function startPaginator(HttpService $httpService, array $rows)
+    {
+        $this->paginator->setPage($httpService->getPaginatorPage());
+
+        if (is_null($this->paginator->getItemCount())) {
+            $this->paginator->setItemCount(count($rows));
+        }
+
+        return array_slice($rows, $this->paginator->offset, $this->paginator->itemsPerPage);
     }
 }
