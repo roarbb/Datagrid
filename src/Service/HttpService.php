@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Service;
 
-
 use Datagrid\Utils\Url;
 
 class HttpService
@@ -108,7 +107,7 @@ class HttpService
     /**
      * Returns name of active sorting column
      *
-     * @return bool
+     * @return bool|string
      */
     public function getSortByValue()
     {
@@ -125,7 +124,7 @@ class HttpService
     /**
      * Returns sorting direction (ASC / DESC / false)
      *
-     * @return bool
+     * @return bool|string
      */
     public function getSortDirection()
     {
@@ -214,4 +213,4 @@ class HttpService
 
         return $url;
     }
-}
+}}

@@ -3,24 +3,27 @@
 
 use Datagrid\Service\HttpService;
 use Nette\Utils\Html;
+use Nette\Utils\Strings;
 
 class Cell implements IBasicElement
 {
     private $columnName;
     private $cellData;
+    private $html;
 
     public function __construct($columnName, $cellData)
     {
         $this->columnName = $columnName;
         $this->cellData = $cellData;
+        $this->html = new Html();
     }
 
     public function render()
     {
-        $td = Html::el('td')->addAttributes(array('class' => 'cell'));
-        $td->setText($this->getCellData());
+        $tableData = $this->html->el('td', array('class' => 'cell cell-' . Strings::webalize($this->columnName)));
+        $tableData->setText($this->getCellData());
 
-        return $td;
+        return $tableData;
     }
 
     /**
@@ -41,32 +44,32 @@ class Cell implements IBasicElement
 
     public function renderHeaderCell($sortingEnabled)
     {
-        $th = Html::el('th');
+        $tableHeader = $this->html->el('th', array('class' => 'cell-' . Strings::webalize($this->columnName)));
+
+        $cellContent = $this->getCellData();
 
         if ($sortingEnabled) {
             $cellContent = $this->getSortingAnchor();
-        } else {
-            $cellContent = $this->getCellData();
         }
 
-        $th->setText($cellContent);
+        $tableHeader->setText($cellContent);
 
-        return $th;
+        return $tableHeader;
     }
 
     private function getSortingAnchor()
     {
         $httpService = new HttpService();
-        $a = Html::el('a');
+        $anchor = $this->html->el('a');
 
         $attributes = array();
         $attributes['href'] = $httpService->getSortUrl($this->getColumnName());
 
-        $a->addAttributes($attributes);
+        $anchor->addAttributes($attributes);
 
-        $a->setText($this->getCellData());
+        $anchor->setText($this->getCellData());
 
-        return $a;
+        return $anchor;
     }
 
     /**

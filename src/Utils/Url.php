@@ -1,39 +1,33 @@
 <?php namespace Datagrid\Utils;
 
-
 class Url
 {
     private $url;
 
-    /**
-     * @param bool $use_forwarded_host
-     */
-    public function __construct($use_forwarded_host = false)
+    public function __construct()
     {
-        $this->url = $this->getActualUrl($use_forwarded_host);
+        $this->url = $this->getActualUrl();
     }
 
     /**
-     * @param $use_forwarded_host
      * @return array
      */
-    private function getActualUrl($use_forwarded_host)
+    private function getActualUrl()
     {
-        $s = $_SERVER;
+        $server = $_SERVER;
 
-        $ssl = (!empty($s['HTTPS']) && $s['HTTPS'] == 'on') ? true : false;
+        $ssl = (!empty($server['HTTPS']) && $server['HTTPS'] == 'on') ? true : false;
 
-        $sp = strtolower($s['SERVER_PROTOCOL']);
+        $serverProtocol = strtolower($server['SERVER_PROTOCOL']);
 
-        $protocol = substr($sp, 0, strpos($sp, '/')) . (($ssl) ? 's' : '');
+        $protocol = substr($serverProtocol, 0, strpos($serverProtocol, '/')) . (($ssl) ? 's' : '');
 
-        $port = $s['SERVER_PORT'];
+        $port = $server['SERVER_PORT'];
         $port = ((!$ssl && $port == '80') || ($ssl && $port == '443')) ? '' : ':' . $port;
 
-        $host = ($use_forwarded_host && isset($s['HTTP_X_FORWARDED_HOST'])) ? $s['HTTP_X_FORWARDED_HOST'] : (isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : null);
-        $host = isset($host) ? $host : $s['SERVER_NAME'] . $port;
+        $host = $server['SERVER_NAME'] . $port;
 
-        $parsedUri = $this->parseUrl($s);
+        $parsedUri = $this->parseUrl($server);
 
         return array(
             'protocol' => $protocol,
@@ -48,7 +42,8 @@ class Url
      */
     public function __toString()
     {
-        return $this->url['protocol'] . '://' . $this->url['host'] . $this->url['path'] . ($this->url['query'] ? '?' . $this->url['query'] : '');
+        return $this->url['protocol'] . '://' . $this->url['host'] . $this->url['path']
+            . ($this->url['query'] ? '?' . $this->url['query'] : '');
     }
 
     /**
@@ -71,12 +66,12 @@ class Url
     }
 
     /**
-     * @param $s
+     * @param $server
      * @return mixed
      */
-    private function parseUrl($s)
+    private function parseUrl($server)
     {
-        $parsedUrl = parse_url($s['REQUEST_URI']);
+        $parsedUrl = parse_url($server['REQUEST_URI']);
 
         if (!isset($parsedUrl['query'])) {
             $parsedUrl['query'] = "";

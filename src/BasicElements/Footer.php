@@ -1,6 +1,5 @@
 <?php namespace Datagrid\BasicElements;
 
-
 use Datagrid\Service\HttpService;
 use Nette\Utils\Html;
 use Nette\Utils\Paginator;
@@ -16,11 +15,12 @@ class Footer implements IBasicElement
     public function __construct($paginator)
     {
         $this->paginator = $paginator;
+        $this->html = new Html();
     }
 
     public function render()
     {
-        $footerDiv = Html::el('div')->addAttributes(array('class' => 'row datagrid-footer'));
+        $footerDiv = $this->html->el('div')->addAttributes(array('class' => 'row datagrid-footer'));
 
         if (!$this->paginator) {
             return $footerDiv;
@@ -37,9 +37,9 @@ class Footer implements IBasicElement
 
     private function getLeftPart()
     {
-        $leftPart = Html::el('div')->addAttributes(array('class' => 'col-xs-6'));
+        $leftPart = $this->html->el('div')->addAttributes(array('class' => 'col-xs-6'));
 
-        $leftPartContent = Html::el('div')->addAttributes(array('class' => 'datagrid-info'));
+        $leftPartContent = $this->html->el('div')->addAttributes(array('class' => 'datagrid-info'));
         $leftPartContent->setText(sprintf('Total items: %s', $this->paginator->itemCount));
 
         $leftPart->add($leftPartContent);
@@ -49,7 +49,7 @@ class Footer implements IBasicElement
 
     private function getRightPart()
     {
-        $rightPart = Html::el('div')->addAttributes(array('class' => 'col-xs-6 text-right'));
+        $rightPart = $this->html->el('div')->addAttributes(array('class' => 'col-xs-6 text-right'));
         $rightPartContent = $this->getPaginatorGUI();
 
         $rightPart->setHtml($rightPartContent);
@@ -62,14 +62,14 @@ class Footer implements IBasicElement
             return false;
         }
 
-        $nav = Html::el('nav');
-        $ul = Html::el('ul')->addAttributes(array('class' => 'pagination'));
+        $nav = $this->html->el('nav');
+        $unorderedList = $this->html->el('ul')->addAttributes(array('class' => 'pagination'));
 
-        $ul->add($this->getFirstPaginationListItem());
-        $this->buildPaginatorPages($ul);
-        $ul->add($this->getLastPaginationListItem());
+        $unorderedList->add($this->getFirstPaginationListItem());
+        $this->buildPaginatorPages($unorderedList);
+        $unorderedList->add($this->getLastPaginationListItem());
 
-        $nav->add($ul);
+        $nav->add($unorderedList);
 
         return $nav;
     }
@@ -96,44 +96,47 @@ class Footer implements IBasicElement
 
     private function getNextOrPreviousPaginationButton($label, $buttonText, $shouldBeDisabled, $pageNumber)
     {
-        $li = Html::el('li');
-        $a = Html::el('a')->addAttributes(array('aria-label' => $label));
-        $span = Html::el('span')->addAttributes(array('aria-hidden' => 'true'))->setHtml($buttonText);
+        $listItem = $this->html->el('li');
+        $anchor = $this->html->el('a')->addAttributes(array('aria-label' => $label));
+        $span = $this->html->el('span')->addAttributes(array('aria-hidden' => 'true'))->setHtml($buttonText);
 
         if ($shouldBeDisabled) {
-            $li->addAttributes(array('class' => 'disabled'));
-        } else {
-            $httpService = new HttpService();
-            $href = $httpService->getUrlWithPaginator($this->paginator->page + $pageNumber);
-            $a->addAttributes(array('href' => $href));
+            $listItem->addAttributes(array('class' => 'disabled'));
         }
 
-        $li->add($a);
-        $a->add($span);
+        if (!$shouldBeDisabled) {
+            $httpService = new HttpService();
+            $href = $httpService->getUrlWithPaginator($this->paginator->page + $pageNumber);
+            $anchor->addAttributes(array('href' => $href));
+        }
 
-        return $li;
+        $listItem->add($anchor);
+        $anchor->add($span);
+
+        return $listItem;
     }
 
-    private function buildPaginatorPages(Html $ul)
+    private function buildPaginatorPages(Html $unorderedList)
     {
         $actualPage = $this->paginator->page;
 
         for ($i = 1; $i <= $this->paginator->pageCount; $i++) {
-
-            if ($this->shouldSkipThisPaginationPage($i)) continue;
+            if ($this->shouldSkipThisPaginationPage($i)) {
+                continue;
+            }
 
             $httpService = new HttpService();
             $paginationUrl = $httpService->getUrlWithPaginator($i);
 
-            $li = Html::el('li');
-            $a = Html::el('a')->addAttributes(array('href' => $paginationUrl))->setText($i);
+            $listItem = $this->html->el('li');
+            $anchor = $this->html->el('a')->addAttributes(array('href' => $paginationUrl))->setText($i);
 
             if ($actualPage == $i) {
-                $li->addAttributes(array('class' => 'active'));
+                $listItem->addAttributes(array('class' => 'active'));
             }
 
-            $li->add($a);
-            $ul->add($li);
+            $listItem->add($anchor);
+            $unorderedList->add($listItem);
         }
     }
 
@@ -148,15 +151,17 @@ class Footer implements IBasicElement
     {
         $leftPaginationRange = $this->visiblePaginationRange;
         $rightPaginationRange = $this->visiblePaginationRange;
-        $actualPageLastPageAndFirstPage = 3;
+        $activeGuiElements = 3;
 
-        return $leftPaginationRange + $rightPaginationRange + $actualPageLastPageAndFirstPage;
+        return $leftPaginationRange + $rightPaginationRange + $activeGuiElements;
     }
 
     private function pageIsNotInPaginationVisibleRange($pageIndex)
     {
         $actualPage = $this->paginator->page;
-        return $pageIndex < $actualPage - $this->visiblePaginationRange || $pageIndex > $actualPage + $this->visiblePaginationRange;
+
+        return $pageIndex < $actualPage - $this->visiblePaginationRange
+            || $pageIndex > $actualPage + $this->visiblePaginationRange;
     }
 
     private function isNotfirstOrLastPage($pageIndex)

@@ -1,6 +1,5 @@
 <?php namespace Datagrid\Renderer;
 
-
 use Datagrid\BasicElements\Footer;
 use Datagrid\BasicElements\Row;
 use Datagrid\Service\HttpService;
@@ -19,12 +18,18 @@ class DefaultRenderer
     private $hidedColumns = array();
     /** @var Paginator */
     private $paginator;
+    private $html;
+
+    public function __construct()
+    {
+        $this->html = new Html();
+    }
 
     public function getDatagrid($data)
     {
         $parser = new Parser();
 
-        $output = Html::el('div')->addAttributes(array('class' => 'datagride'));
+        $output = $this->html->el('div')->addAttributes(array('class' => 'datagride'));
         $rows = $parser->dataToRows($data, $this->hidedColumns);
         $this->buildTable($rows, $output);
         $this->buildFooter($output);
@@ -34,7 +39,7 @@ class DefaultRenderer
 
     private function buildTable(array $rows, Html $output)
     {
-        $table = Html::el('table');
+        $table = $this->html->el('table');
 
         $this->buildTableClass($table);
         $this->buildHeaderRow($table);
@@ -70,10 +75,7 @@ class DefaultRenderer
         }
 
         if ($this->paginator) {
-            $this->paginator->setPage($httpService->getPaginatorPage());
-            $this->paginator->setItemCount(count($rows));
-
-            $rows = array_slice($rows, $this->paginator->offset, $this->paginator->itemsPerPage);
+            $this->startPaginator($httpService, $rows);
         }
 
         /** @var Row $row */
@@ -93,7 +95,7 @@ class DefaultRenderer
     {
         $combined = array_combine($columnNames, $headerLabels);
 
-        if(!$combined) {
+        if (!$combined) {
             throw new \InvalidArgumentException('Header row names count does not match row cells count.');
         }
 
@@ -126,5 +128,16 @@ class DefaultRenderer
         $footerObject = $footer->render();
 
         $output->add($footerObject);
+    }
+
+    private function startPaginator(HttpService $httpService, array $rows)
+    {
+        $this->paginator->setPage($httpService->getPaginatorPage());
+
+        if (is_null($this->paginator->getItemCount())) {
+            $this->paginator->setItemCount(count($rows));
+        }
+
+        return array_slice($rows, $this->paginator->offset, $this->paginator->itemsPerPage);
     }
 }
