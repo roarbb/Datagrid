@@ -1,6 +1,7 @@
 <?php namespace Datagrid\BasicElements;
 
 use Nette\Utils\Html;
+use Nette\Utils\Strings;
 
 class ActionButton implements IBasicElement
 {
