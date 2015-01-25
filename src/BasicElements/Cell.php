@@ -17,7 +17,7 @@ class Cell implements IBasicElement
 
     public function render()
     {
-        $td = Html::el('td');
+        $td = Html::el('td')->addAttributes(array('class' => 'cell'));
         $td->setText($this->getCellData());
 
         return $td;

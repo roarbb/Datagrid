@@ -206,4 +206,12 @@ class HttpService
 
         return $url;
     }
+
+    public function getBaseUrl()
+    {
+        $url = new Url();
+        $url->setNewQuery(array());
+
+        return $url;
+    }
 }
