@@ -213,4 +213,4 @@ class HttpService
 
         return $url;
     }
-}}
+}
